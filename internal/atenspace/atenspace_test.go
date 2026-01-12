@@ -133,8 +133,8 @@ func TestSpace_AddLink(t *testing.T) {
 			name: "add inheritance link",
 			setup: func() (*Space, *Link) {
 				s, _ := NewSpace(ctx)
-				s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
-				s.AddAtom(ctx, &Atom{ID: "atom-2", Type: EntityAtom})
+				_ = s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
+				_ = s.AddAtom(ctx, &Atom{ID: "atom-2", Type: EntityAtom})
 				link := &Link{
 					ID:       "link-1",
 					Type:     InheritanceLink,
@@ -150,8 +150,8 @@ func TestSpace_AddLink(t *testing.T) {
 			name: "add scope link",
 			setup: func() (*Space, *Link) {
 				s, _ := NewSpace(ctx)
-				s.AddAtom(ctx, &Atom{ID: "parent", Type: AggregateAtom})
-				s.AddAtom(ctx, &Atom{ID: "child", Type: AggregateAtom})
+				_ = s.AddAtom(ctx, &Atom{ID: "parent", Type: AggregateAtom})
+				_ = s.AddAtom(ctx, &Atom{ID: "child", Type: AggregateAtom})
 				link := &Link{
 					ID:       "link-2",
 					Type:     ScopeLink,
@@ -190,7 +190,7 @@ func TestSpace_AddLink(t *testing.T) {
 			name: "error on non-existent source atom",
 			setup: func() (*Space, *Link) {
 				s, _ := NewSpace(ctx)
-				s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
+				_ = s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
 				link := &Link{
 					ID:     "link-4",
 					Source: "nonexistent",
@@ -233,7 +233,7 @@ func TestSpace_AttachTensor(t *testing.T) {
 			name: "attach tensor successfully",
 			setup: func() (*Space, string, *Tensor) {
 				s, _ := NewSpace(ctx)
-				s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
+				_ = s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
 				tensor := &Tensor{
 					ID:     "tensor-1",
 					Shape:  []int{3, 3},
@@ -249,7 +249,7 @@ func TestSpace_AttachTensor(t *testing.T) {
 			name: "error on nil tensor",
 			setup: func() (*Space, string, *Tensor) {
 				s, _ := NewSpace(ctx)
-				s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
+				_ = s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
 				return s, "atom-1", nil
 			},
 			wantErr: true,
@@ -372,7 +372,7 @@ func TestSpace_GetAtom(t *testing.T) {
 	t.Run("get existing atom", func(t *testing.T) {
 		s, _ := NewSpace(ctx)
 		atom := &Atom{ID: "atom-1", Type: EntityAtom, Name: "Test"}
-		s.AddAtom(ctx, atom)
+		_ = s.AddAtom(ctx, atom)
 
 		result, err := s.GetAtom(ctx, "atom-1")
 		require.NoError(t, err)
@@ -394,12 +394,12 @@ func TestSpace_GetLinksForAtom(t *testing.T) {
 
 	t.Run("get links for atom", func(t *testing.T) {
 		s, _ := NewSpace(ctx)
-		s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
-		s.AddAtom(ctx, &Atom{ID: "atom-2", Type: EntityAtom})
-		s.AddAtom(ctx, &Atom{ID: "atom-3", Type: EntityAtom})
+		_ = s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
+		_ = s.AddAtom(ctx, &Atom{ID: "atom-2", Type: EntityAtom})
+		_ = s.AddAtom(ctx, &Atom{ID: "atom-3", Type: EntityAtom})
 
-		s.AddLink(ctx, &Link{ID: "link-1", Source: "atom-1", Target: "atom-2", Type: InheritanceLink})
-		s.AddLink(ctx, &Link{ID: "link-2", Source: "atom-2", Target: "atom-3", Type: AssociationLink})
+		_ = s.AddLink(ctx, &Link{ID: "link-1", Source: "atom-1", Target: "atom-2", Type: InheritanceLink})
+		_ = s.AddLink(ctx, &Link{ID: "link-2", Source: "atom-2", Target: "atom-3", Type: AssociationLink})
 
 		links := s.GetLinksForAtom(ctx, "atom-2")
 		assert.Equal(t, 2, len(links))
@@ -407,7 +407,7 @@ func TestSpace_GetLinksForAtom(t *testing.T) {
 
 	t.Run("no links for atom", func(t *testing.T) {
 		s, _ := NewSpace(ctx)
-		s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
+		_ = s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
 
 		links := s.GetLinksForAtom(ctx, "atom-1")
 		assert.Equal(t, 0, len(links))
@@ -419,13 +419,13 @@ func TestSpace_GetTensor(t *testing.T) {
 
 	t.Run("get tensor for atom", func(t *testing.T) {
 		s, _ := NewSpace(ctx)
-		s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
+		_ = s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
 		tensor := &Tensor{
 			ID:    "tensor-1",
 			Shape: []int{2, 2},
 			Data:  []float64{1, 2, 3, 4},
 		}
-		s.AttachTensor(ctx, "atom-1", tensor)
+		_ = s.AttachTensor(ctx, "atom-1", tensor)
 
 		result, err := s.GetTensor(ctx, "atom-1")
 		require.NoError(t, err)
@@ -435,7 +435,7 @@ func TestSpace_GetTensor(t *testing.T) {
 
 	t.Run("error on atom without tensor", func(t *testing.T) {
 		s, _ := NewSpace(ctx)
-		s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
+		_ = s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
 
 		result, err := s.GetTensor(ctx, "atom-1")
 		require.Error(t, err)
@@ -448,8 +448,8 @@ func TestSpace_GetBoundaries(t *testing.T) {
 
 	t.Run("get all boundaries", func(t *testing.T) {
 		s, _ := NewSpace(ctx)
-		s.DefineBoundary(ctx, &DomainBoundary{ID: "b1", Type: TransactionalBoundary})
-		s.DefineBoundary(ctx, &DomainBoundary{ID: "b2", Type: ScopeBoundary})
+		_ = s.DefineBoundary(ctx, &DomainBoundary{ID: "b1", Type: TransactionalBoundary})
+		_ = s.DefineBoundary(ctx, &DomainBoundary{ID: "b2", Type: ScopeBoundary})
 
 		boundaries := s.GetBoundaries(ctx)
 		assert.Equal(t, 2, len(boundaries))
@@ -468,9 +468,9 @@ func TestSpace_QueryByBoundary(t *testing.T) {
 
 	t.Run("query atoms by boundary", func(t *testing.T) {
 		s, _ := NewSpace(ctx)
-		s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
-		s.AddAtom(ctx, &Atom{ID: "atom-2", Type: EntityAtom})
-		s.DefineBoundary(ctx, &DomainBoundary{
+		_ = s.AddAtom(ctx, &Atom{ID: "atom-1", Type: EntityAtom})
+		_ = s.AddAtom(ctx, &Atom{ID: "atom-2", Type: EntityAtom})
+		_ = s.DefineBoundary(ctx, &DomainBoundary{
 			ID:      "boundary-1",
 			Type:    TransactionalBoundary,
 			AtomIDs: []string{"atom-1", "atom-2"},

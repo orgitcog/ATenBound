@@ -190,7 +190,7 @@ func TestFramework_Evaluate(t *testing.T) {
 					Data:    []float64{1, 2, 3, 4, 5},
 					Type:    SymbolicType,
 				}
-				f.RegisterVariable(ctx, v)
+				_ = f.RegisterVariable(ctx, v)
 				return f, "test"
 			},
 			wantErr: false,

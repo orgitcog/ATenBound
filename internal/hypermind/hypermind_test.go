@@ -136,7 +136,7 @@ func TestMultiScopeArchitecture_GetScope(t *testing.T) {
 					ID:   "test-scope",
 					Type: "org",
 				}
-				msa.RegisterScope(ctx, scope)
+				_ = msa.RegisterScope(ctx, scope)
 				return msa, "test-scope"
 			},
 			wantErr: false,
@@ -187,7 +187,7 @@ func TestMultiScopeArchitecture_PropagateState(t *testing.T) {
 					ID:   "test-scope",
 					Type: "org",
 				}
-				msa.RegisterScope(ctx, scope)
+				_ = msa.RegisterScope(ctx, scope)
 				state := map[string]interface{}{
 					"key1": "value1",
 					"key2": 42,
@@ -311,8 +311,8 @@ func TestMultiScopeArchitecture_DiscoverPeers(t *testing.T) {
 			ScopeIDs: []string{"scope-1", "scope-2"},
 		}
 		
-		msa.ConnectPeer(ctx, peer1)
-		msa.ConnectPeer(ctx, peer2)
+		_ = msa.ConnectPeer(ctx, peer1)
+		_ = msa.ConnectPeer(ctx, peer2)
 		
 		// Discover peers for scope-1
 		peers, err := msa.DiscoverPeers(ctx, "scope-1")
@@ -342,7 +342,7 @@ func TestMultiScopeArchitecture_GetActivePeers(t *testing.T) {
 		}
 		
 		for _, p := range peers {
-			msa.ConnectPeer(ctx, p)
+			_ = msa.ConnectPeer(ctx, p)
 		}
 		
 		activePeers := msa.GetActivePeers(ctx)
