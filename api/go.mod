@@ -7,7 +7,7 @@ require (
 	github.com/google/go-cmp v0.7.0
 	github.com/hashicorp/boundary/sdk v0.0.56
 	github.com/hashicorp/go-cleanhttp v0.5.2
-	github.com/hashicorp/go-kms-wrapping/v2 v2.0.19
+	github.com/hashicorp/go-kms-wrapping/v2 v2.0.20
 	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/hashicorp/go-rootcerts v1.0.2
 	github.com/hashicorp/go-secure-stdlib/base62 v0.1.2
